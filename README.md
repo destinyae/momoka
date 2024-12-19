@@ -26,7 +26,7 @@ Using this software, you can verify that a particular action would have been exe
 
 ## Why do we need to use DA?
 
-EVM can store state indefinitely, but at a cost; blockchains were designed for trustless transactional systems. EVM is secured by the network and mined into the chain; the data on-chain is immutable and verifiable at any time, ensuring trust. However, storing data on-chain is expensive, and EVM machines can only process a limited number of transactions per block based on maximum gas limits. Polygon is a shared block space; and at the moment has challenges scaling beyond 50-100 TPS. With 2-second block times, some latency is unavoidable, and max gas limits per block make scaling challenging, if not impossible. For context, Twitter experiences peak rates of 25,000 TPS; while LENS may not require this level of capacity yet, scalability is a critical consideration. This is where DA layers come in; they offer a more affordable solution for storing data with a one-time payment, backed by mathematical guarantees and a history of decreasing hardware costs over time. Moreover, these DA layers are decentralized, preserving this aspect of the system. DA enables scalability beyond 25,000 TPS, and even more; if we aim to revolutionize the world of core social ownership, we must be able to scale accordingly.
+EVM can store state indefinitely, but at a cost; blockchains were designed for trustless transactional systems. EVM is secured by the network and mined into the chain; the data on-chain is immutable and verifiable at any time, ensuring trust. However, storing data on-chain is expensive, and EVM machines can only process a limited number of transactions per block based on maximum gas limits. Polygon is a shared block space, and at the moment has challenges scaling beyond 50-100 TPS. With 2-second block times, some latency is unavoidable, and max gas limits per block make scaling challenging, if not impossible. For context, Twitter experiences peak rates of 25,000 TPS; while LENS may not require this level of capacity yet, scalability is a critical consideration. This is where DA layers come in; they offer a more affordable solution for storing data with a one-time payment, backed by mathematical guarantees and a history of decreasing hardware costs over time. Moreover, these DA layers are decentralized, preserving this aspect of the system. DA enables scalability beyond 25,000 TPS, and even more; if we aim to revolutionize the world of core social ownership, we must be able to scale accordingly.
 
 ## What are transactions on EVM machines?
 
@@ -34,7 +34,7 @@ A transaction on an EVM machine alters some form of state; it is signed by the w
 
 ## How can DA and EVM work together?
 
-LENS is deployed on Polygon, an EVM-based platform. All actions—such as posts, comments, mirrors, follows, and collects are transactions that are built, signed, and sent to be stored on the EVM machine. In the new system, transactions are still built and require a signature from a wallet that would pass the state on-chain, but they are not actually sent. Instead, the transaction signature and typed data are used to create DA metadata, which is then transmitted to a DA layer containing information such as block number, signed typed data, transaction signature, and other crucial details. This data is structured in a way that can be fully verified with just having an archive node.
+LENS is deployed on Polygon, an EVM-based platform. All actions—such as posts, comments, mirrors, follows, and collects are transactions that are built, signed, and sent to be stored on the EVM machine. In the new system, transactions are still built and require a signature from a wallet that would pass the state on-chain, but they are not actually sent. Instead, the transaction signature and typed data are used to create DA metadata, which is then transmitted to a DA layer containing information such as block number, signed typed data, transaction signature, and other crucial details. This data is structured in a way that can be fully verified by just having an archive node.
 
 EVM machines function as large state machines. The EVM JSON-RPC methods allow you to simulate transactions using `eth_call`, determining the outcome of a transaction without actually sending it. You can specify a block number to run the simulation and use the signed typed data transaction with the typed data. This can be done with every `withSig` method on the LENS contracts. With just a Polygon node, anyone can verify that the data on the DA layer is accurate and would have been valid at that point in time. Since the typed data contains expiry times and nonces, it can be proven in a secure manner and can not be submitted by anyone else, edge cases around this are huge reorg ranges which we cover below.
 
@@ -74,7 +74,7 @@ To maintain trust, submitters must be held accountable for their actions and fac
 
 ### Momoka Submitters' responsibilities
 
-Submitters are responsible for validating, building up DA metadata, and submitting it to Arweave/Bundlr. After generating proofs with the DA submission, the data is uploaded to Arweave via Bundlr, with an instantaneous response. The submitter must provide proofs that anyone can contest. Verifier software listens for DA publications sent from whitelisted submitter addresses and verifies their validity.
+Submitters are responsible for validating, building up DA metadata, and submitting it to Arweave/Bundlr. After generating proofs with the DA submission, the data is uploaded to Arweave via Bundlr, with an instantaneous response. The submitter must provide proof that anyone can contest. Verifier software listens for DA publications sent from whitelisted submitter addresses and verifies their validity.
 
 ### Momoka Submitter flow
 
@@ -82,7 +82,7 @@ The flow diagram shows the submitter flows in detail; the first submitter will b
 
 <img src="./images/submitter-flow.jpg" />
 
-### Momoka Future of decentralised submitters
+### Momoka Future of decentralized submitters
 
 This is a rough look at how this could work in the future in a trustless manner. This is not the final solution but a rough idea of how it could work on a very high-level vision.
 
@@ -94,7 +94,7 @@ Verifiers are tasked with monitoring DA publications from submitters and confirm
 
 ## Momoka Current limitations with DA publications
 
-- DA publications must use the `RevertCollectModule` and no `ReferenceModule`. This will be addressed in a future release.
+- DA publications must use the `RevertCollectModule` and not `ReferenceModule`. This will be addressed in a future release.
 - For now, DA comments can only be added to other DA publications; they cannot be mixed. This limitation will be explored after the v1 launch.
 - DA mirrors can only mirror DA publications, not Polygon publications. This issue will be addressed post-v1 launch.
 - While it's not possible to prove DA publications on other DA publications on Polygon (as they are not on-chain), it's still possible to verify the signatures and transactions as valid. However, simulations cannot be executed in this scenario.
@@ -102,7 +102,7 @@ Verifiers are tasked with monitoring DA publications from submitters and confirm
 
 ## Compatibility with signature-free transactions
 
-A top-class UX is essential for LENS users. DA publications work with the dispatcher, which can post, mirror, or comment on users' behalf. If enabled, this will pass state checks. The LENS contract logic states that if the dispatcher signs on behalf of the user, it will result in a valid transaction. Users who don't want to trust the dispatcher can still sign the typed data with their wallet and submit it through the submitter. This process is similar to the current flow, but the transaction is sent to a submitter instead of a Polygon node.
+A top-class UX is essential for LENS users. DA publications work with the dispatcher, who can post, mirror, or comment on users' behalf. If enabled, this will pass state checks. The LENS contract logic states that if the dispatcher signs on behalf of the user, it will result in a valid transaction. Users who don't want to trust the dispatcher can still sign the typed data with their wallet and submit it through the submitter. This process is similar to the current flow, but the transaction is sent to a submitter instead of a Polygon node.
 
 ## Gasless transactions
 
@@ -110,25 +110,25 @@ DA operations don't require gas, making them free to use. The app still needs to
 
 ## Timestamp proofs for picking the block number
 
-You might be concerned that a submitter could deceive about which block to submit on, but that's where Bundlr timestamp proofs come into play. In addition, each signature has a deadline that corresponds to the timestamp of an already mined block, rendering the signature invalid if sent. Bundlr enables you to request a timestamp proof that returns the current timestamp while storing it, allowing anyone to verify that the time was generated by them. This becomes our source of truth for determining the appropriate block number to use; we should use the block number closest to the timestamp generated by Bundlr. It's important to note that latency will inevitably occur due to node software, so if it selects a block number and, upon verification, it is one behind, we consider this an acceptable threshold.
+You might be concerned that a submitter could deceive you about which block to submit on, but that's where Bundlr timestamp proofs come into play. In addition, each signature has a deadline that corresponds to the timestamp of an already mined block, rendering the signature invalid if sent. Bundlr enables you to request a timestamp proof that returns the current timestamp while storing it, allowing anyone to verify that the time was generated by them. This becomes our source of truth for determining the appropriate block number to use; we should use the block number closest to the timestamp generated by Bundlr. It's important to note that latency will inevitably occur due to node software, so if it selects a block number and, upon verification, it is one behind, we consider this an acceptable threshold.
 
 ## Handling reorgs
 
-A reorg on the EVM chain occurs when the blockchain structure changes, often due to a consensus failure or attack. This can lead to previously confirmed transactions becoming unconfirmed, and vice versa. It has significant security implications, making it crucial to be aware of the potential for reorgs and take measures to mitigate their impact. Developers at Polygon and other organizations working on EVM software are striving to reduce the frequency and depth of reorgs, making the issue less concerning. As a general precaution, waiting before considering a transaction final, much like how centralized exchanges operate, is the safest approach - the longer the wait, the lower the risk of a reorg affecting the transaction. In Momoka's first beta version, users cannot mix DA actions with EVM on-chain actions, which was implemented intentionally to simplify handling reorgs.
+A reorg on the EVM chain occurs when the blockchain structure changes, often due to a consensus failure or attack. This can lead to previously confirmed transactions becoming unconfirmed, and vice versa. It has significant security implications, making it crucial to be aware of the potential for reorgs and take measures to mitigate their impact. Developers at Polygon and other organizations working on EVM software are striving to reduce the frequency and depth of reorgs, making the issue less concerning. As a general precaution, waiting before considering a transaction final, much like how centralized exchanges operate, is the safest approach - the longer the wait, the lower the risk of a reorg affecting the transaction. In Momoka's first beta version, users could not mix DA actions with EVM on-chain actions, which was implemented intentionally to simplify handling reorgs.
 
 Currently, the validator doesn't recheck proofs once they are validated, as its primary objective is to validate as quickly as possible for the initial proof. However, as we start integrating DA actions with EVM on-chain actions, we will need to incorporate reorg handling and enable the verifier to recheck intelligently.
 
 For now, any reorg handling or rechecking must be performed outside of the validator software. For example, the LENS API also monitors reorgs and re-validates proofs if a reorg affects any DA actions.
 
-If a transaction is part of a reorg and ends up in a different block or not included at all, the proofs should be re-validated using the new blockchain state, ensuring their validity despite the reorg.
+If a transaction is part of a reorg and ends up in a different block or is not included at all, the proofs should be re-validated using the new blockchain state, ensuring their validity despite the reorg.
 
-As we are not mixing and matching actions we remove a lot of the issues but not all, the edge cases that could cause issues are situations where for example someone sets a dispatcher and then straight away performs an DA action that has the dispatcher sign on their behalf, and then a reorg follows. If the transaction which adds the dispatcher to the profile is not resubmitted or is resubmitted at a higher block number, the proofs would fail. In that case, rerunning the proofs would return a `POTENTIAL_REORG` error which is not "bad" in terms of a submitter doing wrong as they could not of predicted it, you can handle this then as needed. Once we start integrating the cross actions, we will handle such cases within the validator.
+As we are not mixing and matching actions we remove a lot of the issues but not all, the edge cases that could cause issues are situations where for example someone sets a dispatcher and then straight away performs a DA action that has the dispatcher sign on their behalf, and then a reorg follows. If the transaction which adds the dispatcher to the profile is not resubmitted or is resubmitted at a higher block number, the proofs will fail. In that case, rerunning the proofs would return a `POTENTIAL_REORG` error which is not "bad" in terms of a submitter doing wrong as they could not have predicted it, you can handle this then as needed. Once we start integrating the cross actions, we will handle such cases within the validator.
 
-A reorg of the blockchain can potentially affect the signing expiry of transactions. In the unlikely scenario of a severe reorg where time goes backwards on a block, it's conceivable that a transaction could be submitted to the chain that you never intended to. While this is a highly improbable edge case, it's essential to be aware of the possibility. As we embark on building the on-chain publications and DA publication connection, we'll delve deeper into these complex topics.
+A reorg of the blockchain can potentially affect the signing expiry of transactions. In the unlikely scenario of a severe reorg where the time goes backward on a block, it's conceivable that a transaction could be submitted to the chain that you never intended to. While this is a highly improbable edge case, it's essential to be aware of the possibility. As we embark on building the on-chain publications and DA publication connection, we'll delve deeper into these complex topics.
 
 ## Future of Momoka
 
-As we said above this is very much in BETA and as we learn, shape and grow the solution we envision the architecture will end up looking something like this, with decentralised submitters and verifiers.
+As we said above this is very much in BETA and as we learn, shape and grow the solution we envision the architecture will end up looking something like this, with decentralized submitters and verifiers.
 
 <img src="./images/momoka-network.jpg" />
 
